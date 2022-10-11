@@ -10,6 +10,8 @@ if ($id) {
     $products = json_decode(file_get_contents($filename), true) ?? [];
     if (count($products)) {
         $productIndex = array_search($id, array_column($products, 'id'));
+        $imgFile = $products[$productIndex]['imgPath'];
+        unlink($imgFile);
         array_splice($products, $productIndex, 1);
         file_put_contents($filename, json_encode($products));
     }

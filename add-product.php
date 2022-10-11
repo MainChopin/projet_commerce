@@ -1,4 +1,5 @@
 <?php
+require_once "upload-file.php";
 // Filtre pour sécuriser les input du formulaire
 $_POST = filter_input_array(INPUT_POST, [
     'name' => [
@@ -44,6 +45,7 @@ if (empty(array_filter($errors, fn ($e) => $e !== ''))) {
         'name' => $product_name,
         'price' => $product_price,
         'description' => $product_description,
+        'imgPath' => $target_file,
         'onSale' => true,
         'id' => time(),
     ]];

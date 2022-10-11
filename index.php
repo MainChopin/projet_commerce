@@ -1,6 +1,8 @@
 <?php
 require_once 'errors.php';
 $filename = "./data/data.json";
+$target_dir = "img/";
+
 
 $errors = [
     'name' => '',
@@ -33,9 +35,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
     <div class="container">
         <div class="content">
-            <form action="/" method="POST">
+            <form action="/" method="POST" enctype="multipart/form-data">
                 <label for="name">Produit</label>
                 <input type="text" name="name" id="name" >
+
+                <label for="fileToUpload">Image produit</label>
+                <input type="file" id="fileToUpload" name="fileToUpload">
 
                 <label for="price">Prix</label>
                 <input type="number" min="0.00" max="10000.00" step="0.01" name="price"/>
@@ -43,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <label for="description">Description</label>
                 <input type="text" name="description" id="description">
 
-                <button type="submit" class="btn">
+                <button type="submit" class="btn" name="submit">
                     Créer le produit
                 </button>
             </form>
@@ -57,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <table>
                 <tr>
                     <th>Produit</th>
+                    <th>Image</th>
                     <th>Prix</th>
                     <th>Description</th>
                     <th>En vente</th>
@@ -66,6 +72,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <tr>
                         <th>
                             <?= $product['name'] ?>  
+                        </th>
+                        <th>
+                            <img src="<?= $product['imgPath'] ?>" alt="">  
                         </th>
                         <th>
                             <?= $product['price'] . " €" ?>  
@@ -89,10 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 <?php endif; ?>
                                 <input type="hidden" name="id" value="<?= $product['id'] ?>">
                                 <button class="btn" type="submit"> Supprimer</button>
-                                
                             </form>
                             <form action="/update-product.php" method="POST">
-
                                 <button class="btn" type="submit"><?= $product['onSale'] ? 'Retirer' : 'Ajouter' ?></button>
                                 <input type="hidden" name="id" value="<?= $product['id'] ?>">
                             </form>
